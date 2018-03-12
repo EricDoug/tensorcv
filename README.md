@@ -1,5 +1,14 @@
-# skirt_length_design baseline实验描述
 天池fashionai比赛地址：https://tianchi.aliyun.com/competition/introduction.htm?spm=5176.100066.0.0.350cd780qWQYjg&raceId=231649
+
+# 2018.03.13 Update
+增加模型finetune和数据增强，可以很容易地训练出排行榜上分数接近0.95的模型。实验配置参考[examples/fashionai/E02_finetune/skirt_length.cfg](examples/fashionai/E02_finetune/skirt_length.cfg)（将配置中的`PATH_OF_PRETRAINED_MODEL_TO_BE_CONFIGURED`改成用来finetune的模型路径或所在目录）。
+* finetune使用模型：tensorflow官方提供的在imagenet上训练的[resnet50模型](http://download.tensorflow.org/models/official/resnet50_2017_11_30.tar.gz)
+* 数据增强方式
+  * 将图片resize到256x256，再随机crop到224x224
+  * 随机左右翻转
+
+
+# skirt_length_design baseline实验描述
 * 将官方提供的`skirt_length_design`的数据拆成训练集和验证集。
 * 将所有图片直接resize成224x224
 * label直接去看y的位置，忽视m
@@ -7,6 +16,7 @@
 * 最后模型收敛的时候，在验证集上的accuracy约90%
 
 # 安装 tensorcv
+需要使用python3
 ```bash
 $ git clone https://github.com/tworuler/tensorcv.git ~/github
 pip install -r requirements.txt
@@ -35,7 +45,7 @@ pip install -e .
 ```bash
 mkdir -p ~/fashionai/skirt_length/E01
 cd ~/fashionai/skirt_length/E01
-cp ~/github/tensorcv/exmaples/fashionai/skirt_length.cfg .
+cp ~/github/tensorcv/exmaples/fashionai/E01_baseline/skirt_length.cfg .
 ```
 * 将skirt_length.cfg中的路径相关配置改成自己的路径。如：
   * 将`PATH_OF_EXPERIMENT_TO_BE_CONFIGURED`改成`~/fashionai/skirt_length/E01`
