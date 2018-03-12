@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorcv.train.trainer.trainer import Trainer
 from tensorcv.train.hooks import CheckpointPerfactSaverHook
+from tensorcv.logger import logger
 
 
 class SimpleTrainer(Trainer):
@@ -24,6 +25,24 @@ class SimpleTrainer(Trainer):
                     loss=loss,
                     eval_metric_ops=metrics)
 
+            if self.config.transfer_checkpoint:
+                transfer_dict = {}
+                transfer_params = self.config.transfer_params
+                skip_names = transfer_params.get('skip_variables', [])
+                for v in tf.trainable_variables():
+                    is_skip = False
+                    for skip_name in skip_names:
+                        if skip_name in v.name:
+                            is_skip = True
+                            break
+                    if not is_skip:
+                        old_name = '/'.join(v.name.split('/')[1:]).split(':')[0]
+                        transfer_dict[old_name] = 'net/' + old_name
+                    else:
+                        logger.info('Transfer skip variable {}'.format(v.name))
+
+            tf.train.init_from_checkpoint(
+                self.config.transfer_checkpoint, transfer_dict)
             lr = model.lr_policy(tf.train.get_global_step())
             optimizer = model.optimizer(lr)
             update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
