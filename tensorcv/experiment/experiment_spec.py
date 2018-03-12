@@ -169,6 +169,15 @@ class ExperimentSpec(object):
         return self.config.getint('train', 'model_save_steps', fallback=1000)
 
     @property
+    def transfer_checkpoint(self):
+        return self.config.get('train', 'transfer_checkpoint', fallback="")
+
+    @property
+    def transfer_params(self):
+        params = self.config.get('train', 'transfer_params', fallback='{}')
+        return json.loads(params)
+
+    @property
     def model_step(self):
         return self.config.get('evaluate', 'model_step')
 
