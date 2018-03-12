@@ -40,9 +40,9 @@ class SimpleTrainer(Trainer):
                         transfer_dict[old_name] = 'net/' + old_name
                     else:
                         logger.info('Transfer skip variable {}'.format(v.name))
+                tf.train.init_from_checkpoint(
+                    self.config.transfer_checkpoint, transfer_dict)
 
-            tf.train.init_from_checkpoint(
-                self.config.transfer_checkpoint, transfer_dict)
             lr = model.lr_policy(tf.train.get_global_step())
             optimizer = model.optimizer(lr)
             update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
