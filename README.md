@@ -26,8 +26,8 @@ pip install -e .
 
 ## 实验数据准备
 * 整理官方的提供的数据。如:
-  * 将2次提供的训练集合成在一起放在`~/fashionai/data/train_data`下。
-  * 将测试集放在`~/fashionai/data/test_data`下。
+  * 将2次提供的训练集合成在一起放在`/tmp/fashionai/data/train_data`下。
+  * 将测试集放在`/tmp/fashionai/data/test_data`下。
 * 准备数据列表
   * 筛选出skirt_length相关的数据
   * 将数据拆成训练集和验证集
@@ -43,28 +43,28 @@ pip install -e .
 ## 准备实验配置
 * 建立实验目录，并复制baseline实验配置
 ```bash
-mkdir -p ~/fashionai/skirt_length/E01
-cd ~/fashionai/skirt_length/E01
+mkdir -p /tmp/fashionai/skirt_length/E01
+cd /tmp/fashionai/skirt_length/E01
 cp ~/github/tensorcv/exmaples/fashionai/E01_baseline/skirt_length.cfg .
 ```
 * 将skirt_length.cfg中的路径相关配置改成自己的路径。如：
-  * 将`PATH_OF_EXPERIMENT_TO_BE_CONFIGURED`改成`~/fashionai/skirt_length/E01`
-  * 将`PATH_OF_TRAIN_DATA_FOLDER_BE_CONFIGURED`改成`~/fashionai/data/train_data`
-  * 将`PATH_OF_TEST_DATA_FOLDER_BE_CONFIGURED`改成`~/fashionai/data/test_data`
-  * 将`PATH_OF_TRAIN_CSV_TO_BE_CONFIGURED`改成`~/fashionai/data/train_data/Annotations/train.csv`
-  * 将`PATH_OF_VAL_CSV_TO_BE_CONFIGURED`改成`~/fashionai/data/train_data/Annotations/val.csv`
-  * 将`PATH_OF_TEST_CSV_TO_BE_CONFIGURED`改成`~/fashionai/data/test_data/Tests/question.csv`
+  * 将`PATH_OF_EXPERIMENT_TO_BE_CONFIGURED`改成`/tmp/fashionai/skirt_length/E01`
+  * 将`PATH_OF_TRAIN_DATA_FOLDER_BE_CONFIGURED`改成`/tmp/fashionai/data/train_data`
+  * 将`PATH_OF_TEST_DATA_FOLDER_BE_CONFIGURED`改成`/tmp/fashionai/data/test_data`
+  * 将`PATH_OF_TRAIN_CSV_TO_BE_CONFIGURED`改成`/tmp/fashionai/data/train_data/Annotations/train.csv`
+  * 将`PATH_OF_VAL_CSV_TO_BE_CONFIGURED`改成`/tmp/fashionai/data/train_data/Annotations/val.csv`
+  * 将`PATH_OF_TEST_CSV_TO_BE_CONFIGURED`改成`/tmp/fashionai/data/test_data/Tests/question.csv`
 
 ## 启动实验训练
 * 使用下面命令启动实验
 ```bash
-tcv train skirt_length_01.cfg
+tcv train skirt_length.cfg
 ```
 
 ## 生成测试集的answer
 * 使用下面命令对测试集inference，会只生成skirt_length相关的答案，在`eval/20000/test_0222.csv`
 ```bash
-tcv predict skirt_length_01.cfg
+tcv predict skirt_length.cfg
 ```
 
 ## 使用tensorboard查看实验相关指标
